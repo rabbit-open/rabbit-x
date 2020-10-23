@@ -1,0 +1,223 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    def mockDepen = rootProject.ext.appDependencies
+    Iterator<String> types = mockDepen.keySet().iterator()
+    while (types.hasNext()) {
+        def depenciesType = types.next()
+        def depenciesMap = mockDepen.get(depenciesType)
+        Iterator<String> keys = depenciesMap.keySet().iterator()
+        while (keys.hasNext()) {
+            if (depenciesType == "implementation") {
+                implementation depenciesMap.get(keys.next())
+            } else if (depenciesType == "androidTestImplementation") {
+                androidTestImplementation depenciesMap.get(keys.next())
+            } else if (depenciesType == "annotationProcessor") {
+                annotationProcessor depenciesMap.get(keys.next())
+            } else if (depenciesType == "testImplementation") {
+                testImplementation depenciesMap.get(keys.next())
+            } else if (depenciesType == "debugImplementation") {
+                debugImplementation depenciesMap.get(keys.next())
+            } else if (depenciesType == "releaseImplementation") {
+                releaseImplementation depenciesMap.get(keys.next())
+            }
+        }
+    }
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibility
+        targetCompatibility rootProject.ext.targetCompatibility
+    }
+
+    signingConfigs {
+        release {
+            keyAlias
+            keyPassword
+            storeFile
+            storePassword
+        }
+
+        debug {
+            keyAlias
+            keyPassword
+            storeFile
+            storePassword
+        }
+
+    }
+
+    def currentVersionCode = getVersionCode()
+    def currentVersionName = getVersionName()
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        applicationId "com.supets.pet.mockui"
+
+        versionCode currentVersionCode
+        versionName currentVersionName
+
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
+        flavorDimensions "rabbit"
+    }
+
+    getSigningProperties()
+
+    buildTypes {
+
+        debug {
+            signingConfig signingConfigs.debug
+            zipAlignEnabled true
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
+        }
+    }
+
+
+    lintOptions {
+        abortOnError true
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def runTasks = gradle.startParameter.taskNames
+            if (('assembleDebug' in runTasks)) {
+                outputFileName = "Tuzi__${variant.productFlavors[0].name}_V${defaultConfig.versionName}_build${defaultConfig.versionCode}_debug.apk"
+            } else if (('assembleRelease' in runTasks)) {
+                outputFileName = "Tuzi__${variant.productFlavors[0].name}_V${defaultConfig.versionName}_build${defaultConfig.versionCode}_release.apk"
+            } else {
+                outputFileName = "Tuzi__${variant.productFlavors[0].name}_V${defaultConfig.versionName}_build${defaultConfig.versionCode}.apk"
+            }
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.assemble.doLast {
+            variant.outputs.all {
+                File file = new File(outputFileName)
+                if (variant.buildType.zipAlignEnabled && file.getName().contains("unaligned")) {
+                    println "deleting " + file.getName()
+                    file.delete()
+                }
+            }
+            updateVersionCode()
+        }
+    }
+
+
+    productFlavors {
+        localhost {
+            dimension "rabbit"
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "6g"
+    }
+}
+
+
+def getVersionCode() {
+    def versionFile = file('version.properties')
+    if (versionFile.exists()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        def versionCode = versionProps['build.number'].toInteger()
+        println('Current version code is ' + versionCode.toString())
+        return versionCode
+    } else {
+    }
+}
+
+def getVersionName() {
+    def versionFile = file('version.properties')
+
+    if (versionFile.exists()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        def versionCode = versionProps['build.versionName'].toString()
+        println('Current version code is ' + versionCode.toString())
+        return versionCode
+    } else {
+    }
+}
+
+//数据库版本以及Dao的相关设置
+greendao {
+    //数据库schema版本
+    schemaVersion 11
+    //设置DaoMaster DaoSession Dao包名，默认的是bean所在的包名
+    daoPackage "com.supets.pet.greendao"
+    targetGenDir 'src/main/java'
+    //设置DaoMaster DaoSeeeion Dao目录，默认是build/generated/source/greendao
+    //targetGenDir 'src/main/greendao'
+    //设置true,自动生成测试单元
+    //generateTests true
+    //设置生成的单元测试目录，默认是src/androidTest/java
+    targetGenDirTests 'src/androidTest/java'
+}
+
+def updateVersionCode() {
+
+    def runTasks = gradle.startParameter.taskNames
+
+    if (!('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks)) {
+        return
+    }
+
+    def File versionFile = file('version.properties')
+
+    if (versionFile.exists()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        def currentVersionCode = versionProps['build.number'].toInteger()
+        currentVersionCode++
+        versionProps['build.number'] = currentVersionCode.toString()
+        versionProps.store(versionFile.newWriter(), null)
+        println('Updated version code to ' + currentVersionCode.toString())
+    } else {
+    }
+}
+
+//读取签名配置文件def
+def getSigningProperties() {
+    def propFile = file('signing.properties')
+    if (propFile.canRead()) {
+        def Properties props = new Properties()
+        props.load(new FileInputStream(propFile))
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+
+            android.signingConfigs.debug.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.debug.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.debug.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.debug.keyPassword = props['KEY_PASSWORD']
+
+        } else {
+            println 'signing.properties found but some entries are missing'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+}

@@ -1,2 +1,77 @@
-# rabbit-x
-rabbit库的androidx版本
+# rabbit(兔子测试)
+--------------
+
+
+## 设计初衷
+
+* 开发阶段实时可视化网络请求
+* 调试接口的兼容性，界面的业务逻辑，数据兼容性
+ 
+## 设计原理
+  
+* 数据采集采用okHttp拦截器实现，显示采用悬浮窗实现
+
+## 基础使用
+
+* 1 gradle配置
+
+> 添加 repositories
+> 
+> maven{ url 'https://dl.bintray.com/lihongjiang/maven/'}
+> 
+> 添加 dependencies
+> 
+> debugImplementation "com.supets.pet.mocklib:mock-okhttp-simple:2.46.27"
+> releaseImplementation "com.supets.pet.mocklib:mock-okhttp-no-op:2.35.27"
+
+* 2 okHttp接入拦截器
+
+-->
+
+	if (BuildConfig.DEBUG) {
+	    httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors());
+	}
+
+* 3 打开应用悬浮窗
+
+
+*  4 效果截图
+
+<img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/bqQfVz5yrrGYSXMvKr.cqSwLZJUHEaCYpp*n7DbWm7N617OCdOqOpNhcEcpA2LnfbAocl3W59enz4BaTbY.qhpKXu03oovhiCEegd1ZBQKg!/b&bo=OASABwAAAAADB5k!&rf=viewer_4" width='300'></img> <img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/TmEUgtj9EK6.7V8ajmQrEKxaczfvhe3JMiieuqf.bVz*KtglW3h2YcHcxkvDsjVV7oJBikrt5CiAwp7lx24kSgmoWkGDs*B4bs9lmJeoeGA!/b&bo=OASABwAAAAADN6k!&rf=viewer_4" width='300'></img>
+
+## 高级使用
+
+* 1 更换依赖
+
+> debugImplementation "com.supets.pet.mocklib:mock-okhttp-web:2.46.27"
+> releaseImplementation "com.supets.pet.mocklib:mock-okhttp-no-op:2.35.27" 
+
+* 2 okHttp接入拦截器
+
+-->
+
+    if (BuildConfig.DEBUG) {
+		httpClient.addInterceptor(TuziMockManager.getMockInterceptors());
+		httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors()); 
+	}
+
+* 3 打开悬浮窗权限，然后浏览器访问[http://ip:APP进程号]
+
+<img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/bqQfVz5yrrGYSXMvKr.cqcXnCdbtDxKKviAO.z0D2MjtLwdjYICoGFMFIpIIM4iJ9VDzjxQ9Ak21nlaxxJifD32ufrFvqQUUdUnFT6ig96Q!/b&bo=VQW7AgAAAAADB8s!&rf=viewer_4&t=5" width='1000'></img>
+
+* 4 基础配置
+
+-->
+
+	1 接口过滤规则：配置过滤地址，可以多个，空格分隔
+    1 开关配置：测试模式和数据抓取模式切换
+    2 悬浮窗显示相关配置
+    ... 
+
+
+####   ========更多功能等你发现，觉得好用，star，fork 就是我的动力========
+
+## 版权声明
+
+    此项目属于个人业余项目，严禁商业用途。 
+    QQ联系方式：254608684
