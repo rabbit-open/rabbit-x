@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.MainThread;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.MainThread;
+import androidx.core.content.ContextCompat;
 import android.widget.Toast;
 
 import com.supets.pet.mocklib.R;

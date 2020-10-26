@@ -1,7 +1,5 @@
 package com.supets.pet.mocklib.interceptor.cache;
 
-import android.util.Log;
-
 import java.io.IOException;
 
 import okhttp3.CacheControl;

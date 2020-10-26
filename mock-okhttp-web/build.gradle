@@ -6,7 +6,7 @@ apply plugin: 'com.novoda.bintray-release'//添加
 //添加
 publish {
     userOrg = 'lihongjiang'//bintray.com用户名
-    groupId = 'com.supets.pet.mocklib'//jcenter上的路径
+    groupId = 'androidx.supets.pet.mocklib'//jcenter上的路径
     artifactId = 'mock-okhttp-web'//项目名称
     publishVersion = "1.0.4"//版本号
     desc = 'mock test app'//描述，不重要
@@ -16,31 +16,23 @@ publish {
     dryRun = false
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.squareup.okhttp3:okhttp:3.10.0"
-    def mockDepen = rootProject.ext.webDependencies
-    Iterator<String> types = mockDepen.keySet().iterator()
-    while (types.hasNext()) {
-        def depenciesType = types.next()
-        def depenciesMap = mockDepen.get(depenciesType)
-        Iterator<String> keys = depenciesMap.keySet().iterator()
-        while (keys.hasNext()) {
-            if (depenciesType == "implementation") {
-                implementation depenciesMap.get(keys.next())
-            } else if (depenciesType == "androidTestImplementation") {
-                androidTestImplementation depenciesMap.get(keys.next())
-            } else if (depenciesType == "annotationProcessor") {
-                annotationProcessor depenciesMap.get(keys.next())
-            } else if (depenciesType == "testImplementation") {
-                testImplementation depenciesMap.get(keys.next())
-            } else if (depenciesType == "debugImplementation") {
-                debugImplementation depenciesMap.get(keys.next())
-            } else if (depenciesType == "releaseImplementation") {
-                releaseImplementation depenciesMap.get(keys.next())
-            }
-        }
-    }
+    implementation "com.squareup.okhttp3:okhttp:4.3.1"
+    //android
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    //三方依赖
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    //数据库加密时添加
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.4'
+    //使用数据库升级辅助GreenDaoUpgradleHepler时添加
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v1.2.0'
+    // 搭建Android上的服务器 “实现隔空取物”
+    implementation 'com.koushikdutta.async:androidasync:2.2.1'
 }
 
 android {

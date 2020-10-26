@@ -18,7 +18,7 @@ apply plugin: 'com.novoda.bintray-release'//添加
 //添加
 publish {
     userOrg = 'lihongjiang'//bintray.com用户名
-    groupId = 'com.supets.pet.mocklib'//jcenter上的路径
+    groupId = 'androidx.supets.pet.mocklib'//jcenter上的路径
     artifactId = 'mock-okhttp-no-op'//项目名称
     publishVersion = rootProject.ext.mockOkhttpVersion//版本号
     desc = 'mock test app'//描述，不重要
@@ -30,7 +30,7 @@ publish {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation "com.squareup.okhttp3:okhttp:4.3.1"
 }
 
 
@@ -50,7 +50,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
     buildTypes {
