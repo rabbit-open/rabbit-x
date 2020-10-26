@@ -21,8 +21,8 @@
 > 
 > 添加 dependencies
 > 
-> debugImplementation "com.supets.pet.mocklib:mock-okhttp-simple:2.46.27"
-> releaseImplementation "com.supets.pet.mocklib:mock-okhttp-no-op:2.35.27"
+> debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-simple:2.46.28"
+> releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28"
 
 * 2 okHttp接入拦截器
 
@@ -43,8 +43,8 @@
 
 * 1 更换依赖
 
-> debugImplementation "com.supets.pet.mocklib:mock-okhttp-web:2.46.27"
-> releaseImplementation "com.supets.pet.mocklib:mock-okhttp-no-op:2.35.27" 
+> debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-web:1.0.4"
+> releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28" 
 
 * 2 okHttp接入拦截器
 
