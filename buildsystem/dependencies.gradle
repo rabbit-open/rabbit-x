@@ -8,4 +8,5 @@ ext {
     compileSdkVersion = 28
     buildToolsVersion = "28.0.3"
     mockOkhttpVersion = "2.46.28"
+    mock_Okhttp_simple_Version = "2.47.28_beta0"
 }
