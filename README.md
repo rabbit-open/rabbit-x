@@ -1,6 +1,4 @@
 # rabbit(兔子测试)
---------------
-
 
 ## 设计初衷
 
@@ -8,7 +6,7 @@
 * 调试接口的兼容性，界面的业务逻辑，数据兼容性
  
 ## 设计原理
-  
+
 * 数据采集采用okHttp拦截器实现，显示采用悬浮窗实现
 
 ## 基础使用
@@ -18,6 +16,8 @@
 > 添加 repositories
 > 
 > maven{ url 'https://dl.bintray.com/lihongjiang/maven/'}
+>
+> 新仓库迁移 maven { url "https://gitee.com/lihongjiang/maven/raw/master/release/" }
 > 
 > 添加 dependencies
 > 
