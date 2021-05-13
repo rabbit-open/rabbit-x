@@ -1,59 +1,36 @@
 # rabbit(兔子测试)
 
 ## 设计初衷
-
 * 开发阶段实时可视化网络请求
 * 调试接口的兼容性，界面的业务逻辑，数据兼容性
- 
 ## 设计原理
-
 * 数据采集采用okHttp拦截器实现，显示采用悬浮窗实现
-
 ## 基础使用
-
-* 1 gradle配置
-
+> 1 gradle配置
 > 添加 repositories
-> 
 > maven{ url 'https://dl.bintray.com/lihongjiang/maven/'}
->
 > 新仓库迁移 maven { url "https://gitee.com/lihongjiang/maven/raw/master/release/" }
-> 
 > 添加 dependencies
-> 
 > debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-simple:2.46.28"
 > releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28"
-
-* 2 okHttp接入拦截器
-
--->
-
-	if (BuildConfig.DEBUG) {
-	    httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors());
-	}
-
-* 3 打开应用悬浮窗
-
-
-*  4 效果截图
-
+> 2 okHttp接入拦截器
+> if (BuildConfig.DEBUG) {
+> httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors());
+> }
+> 3 打开应用悬浮窗
+> 4 效果截图
 <img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/bqQfVz5yrrGYSXMvKr.cqSwLZJUHEaCYpp*n7DbWm7N617OCdOqOpNhcEcpA2LnfbAocl3W59enz4BaTbY.qhpKXu03oovhiCEegd1ZBQKg!/b&bo=OASABwAAAAADB5k!&rf=viewer_4" width='300'></img> <img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/TmEUgtj9EK6.7V8ajmQrEKxaczfvhe3JMiieuqf.bVz*KtglW3h2YcHcxkvDsjVV7oJBikrt5CiAwp7lx24kSgmoWkGDs*B4bs9lmJeoeGA!/b&bo=OASABwAAAAADN6k!&rf=viewer_4" width='300'></img>
 
 ## 高级使用
 
 * 1 更换依赖
-
 > debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-web:1.0.4"
 > releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28" 
-
 * 2 okHttp接入拦截器
-
--->
-
-    if (BuildConfig.DEBUG) {
-		httpClient.addInterceptor(TuziMockManager.getMockInterceptors());
-		httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors()); 
-	}
+> if (BuildConfig.DEBUG) {
+> httpClient.addInterceptor(TuziMockManager.getMockInterceptors());
+> httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors()); 
+> }
 
 * 3 打开悬浮窗权限，然后浏览器访问[http://ip:APP进程号]
 
@@ -61,12 +38,10 @@
 
 * 4 基础配置
 
--->
-
-	1 接口过滤规则：配置过滤地址，可以多个，空格分隔
-    1 开关配置：测试模式和数据抓取模式切换
-    2 悬浮窗显示相关配置
-    ... 
+> 1 接口过滤规则：配置过滤地址，可以多个，空格分隔
+> 2 开关配置：测试模式和数据抓取模式切换
+> 3 开关配置：测试模式和数据抓取模式切换
+> ... 
 
 
 ####   ========更多功能等你发现，觉得好用，star，fork 就是我的动力========
