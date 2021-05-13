@@ -6,20 +6,24 @@
 ## 设计原理
 * 数据采集采用okHttp拦截器实现，显示采用悬浮窗实现
 ## 基础使用
-> 1 gradle配置
-> 添加 repositories
-> maven{ url 'https://dl.bintray.com/lihongjiang/maven/'}
-> 新仓库迁移 maven { url "https://gitee.com/lihongjiang/maven/raw/master/release/" }
-> 添加 dependencies
-> debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-simple:2.46.28"
-> releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28"
-> 2 okHttp接入拦截器
-> if (BuildConfig.DEBUG) {
-> httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors());
-> }
-> 3 打开应用悬浮窗
-> 4 效果截图
-<img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/bqQfVz5yrrGYSXMvKr.cqSwLZJUHEaCYpp*n7DbWm7N617OCdOqOpNhcEcpA2LnfbAocl3W59enz4BaTbY.qhpKXu03oovhiCEegd1ZBQKg!/b&bo=OASABwAAAAADB5k!&rf=viewer_4" width='300'></img> <img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/TmEUgtj9EK6.7V8ajmQrEKxaczfvhe3JMiieuqf.bVz*KtglW3h2YcHcxkvDsjVV7oJBikrt5CiAwp7lx24kSgmoWkGDs*B4bs9lmJeoeGA!/b&bo=OASABwAAAAADN6k!&rf=viewer_4" width='300'></img>
+* 1 gradle配置
+        
+        添加 repositories
+        maven{ url 'https://dl.bintray.com/lihongjiang/maven/'}
+        新仓库迁移 maven { url "https://gitee.com/lihongjiang/maven/raw/master/release/" }
+        添加 dependencies
+        debugImplementation "androidx.supets.pet.mocklib:mock-okhttp-simple:2.46.28"
+        releaseImplementation "androidx.supets.pet.mocklib:mock-okhttp-no-op:2.46.28"
+        
+* 2 okHttp接入拦截器
+
+        if (BuildConfig.DEBUG) {
+                httpClient.addInterceptor(TuziMockManager.getMockLogInterceptors());
+        }
+* 3 打开应用悬浮窗
+* 4 效果截图
+<img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/bqQfVz5yrrGYSXMvKr.cqSwLZJUHEaCYpp*n7DbWm7N617OCdOqOpNhcEcpA2LnfbAocl3W59enz4BaTbY.qhpKXu03oovhiCEegd1ZBQKg!/b&bo=OASABwAAAAADB5k!&rf=viewer_4" width='300'>
+</img> <img src="http://m.qpic.cn/psc?/V128bWpv0lPy2K/TmEUgtj9EK6.7V8ajmQrEKxaczfvhe3JMiieuqf.bVz*KtglW3h2YcHcxkvDsjVV7oJBikrt5CiAwp7lx24kSgmoWkGDs*B4bs9lmJeoeGA!/b&bo=OASABwAAAAADN6k!&rf=viewer_4" width='300'></img>
 
 ## 高级使用
 
